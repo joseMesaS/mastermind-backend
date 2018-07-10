@@ -32,7 +32,8 @@ export default () =>
     entities: [
       User,
       Game, 
-      Player
+      Player,
+      Turn
     ],
     synchronize: true, // careful with this in production!
     logging: true,

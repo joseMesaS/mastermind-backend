@@ -11,11 +11,11 @@ export default class Turn extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  // @ManyToOne(() => Game, game => game.turns)
-  // game: Game;
+  @ManyToOne(() => Game, game => game.turns)
+  game: Game;
 
-  // @ManyToOne(_ => Player, player => player.turns)
-  // player: Player;
+  @ManyToOne(_ => Player, player => player.turns)
+  player: Player;
 
   @Column('integer', {nullable:true})
   user_turn: number[]

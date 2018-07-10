@@ -9,24 +9,16 @@ export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('text')
+  @Column('text',{nullable:true})
   name: string
 
-  @Column()
-  idPlayer1: number
-
-
-  @Column()
-  idPlayer2: number
-
-
-//   @OneToMany(_ => Turn, turn => turn.game)
-//   turns: Turn;
+  @OneToMany(_ => Turn, turn => turn.game)
+  turns: Turn;
 
   @OneToMany(_ => Player, player => player.game, {eager:true})
   players: Player[]
 
-  @Column('json')
+  @Column('json',{nullable:true})
   solution: number[]
 
   @CreateDateColumn({type: 'timestamp'})
@@ -47,10 +39,7 @@ export class Player extends BaseEntity {
   @ManyToOne(_ => Game, game => game.players)
   game: Game
 
-//   @Column()
-//   userId: number
-
-//   @ManyToOne(_ => Turn, turn => turn.player)
-//   turns: Turn[];
+  @OneToMany(_ => Turn, turn => turn.player)
+  turns: Turn[];
 
 }
