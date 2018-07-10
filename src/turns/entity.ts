@@ -1,5 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
+import Game from '../games/entity';
+import User from '../users/entity';
 
 
 
@@ -9,11 +11,11 @@ export default class Turn extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @ManyToOne(type => Game, game => game.turns)
+  @ManyToOne(() => Game, game => game.turns)
   game: Game;
 
-  @ManyToOne(type => User, user => user.turns)
-  user: User;
+  @ManyToMany(type => Player, player => player.turns)
+  player: Player;
 
   @Column('integer', {nullable:true})
   user_turn: number[]

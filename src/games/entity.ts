@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
-
+import Turn  from '../turns/entity'
 
 @Entity()
 export default class Game extends BaseEntity {
@@ -17,6 +17,11 @@ export default class Game extends BaseEntity {
 
   @Column()
   idPlayer2: number
+
+
+  @OneToMany(type => Turn, turn => turn.game)
+  turns: Turn;
+
 
   @CreateDateColumn({type: 'timestamp'})
   timeOfCreation: Date
