@@ -22,6 +22,9 @@ export class Game extends BaseEntity {
   @Column('json',{nullable:true})
   solution: number[]
 
+  @Column('text', {default: 'pending'})
+  status: string
+
   @CreateDateColumn({type: 'timestamp'})
   timeOfCreation: Date
 }
