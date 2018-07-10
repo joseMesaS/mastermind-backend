@@ -1,4 +1,4 @@
-import { JsonController, Post, Get, Param, CurrentUser, Authorized, BodyParam} from 'routing-controllers'
+import { JsonController, Post, Get, Param, CurrentUser, Authorized, BodyParam, HttpCode, BadRequestError} from 'routing-controllers'
 import {Game, Player} from './entity'
 import User from '../users/entity';
 import {io} from '../index'
@@ -7,11 +7,38 @@ import {createSolution} from '../turns/gamelogic/logic'
 @JsonController()
 export default class GamesController {
 
-    @Get('/games/:id')
-    getGame(
-        @Param('id') id: number
+
+    @Authorized()
+    @Get('/games')
+    getGames() {
+      return Game.find()
+    }
+
+    @Authorized()
+    @Post('/games/:id([0-9]+)')
+    @HttpCode(201)
+    async joinGame(
+        @CurrentUser() user: User,
+        @Param('id') gameId: number
     ) {
-        return Game.findOne(id)
+        const game = await Game.findOne(gameId)
+        if (!game) throw new BadRequestError(`Game does not exist`)
+        if (game.status !== 'pending') throw new BadRequestError(`Game is already started`)
+
+        game.status = 'started'
+        await game.save()
+
+        const player = await Player.create({
+        game, 
+        user
+        }).save()
+
+        io.emit('action', {
+        type: 'UPDATE_GAME',
+        payload: await Game.findOne(game.id)
+        })
+
+        return player
     }
 
     
@@ -24,6 +51,7 @@ export default class GamesController {
         const newGame = Game.create()
         newGame.name = name
         newGame.solution = createSolution()
+        console.log(newGame.solution)
         const entity = await newGame.save()
 
         await Player.create({
