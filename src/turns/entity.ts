@@ -26,6 +26,9 @@ export default class Turn extends BaseEntity {
   @Column('integer', {nullable:true})
   postitons_score: number
 
+  @Column('boolean', {nullable:true})
+  winner: boolean
+
   @CreateDateColumn({type: "timestamp"})
   created_at: Date;
 }

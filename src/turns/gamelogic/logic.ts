@@ -20,6 +20,3 @@ export const checkColors = (guess, solution) => {
                 .length;
 }
 
-// export const checkIfWon = (guesses) => {
-//     return guesses.filter(a => positions(a) === 4)
-// }
