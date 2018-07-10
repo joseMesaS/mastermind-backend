@@ -32,6 +32,12 @@ export default class TurnController {
     const turns = await Turn.query(`SELECT COUNT (id) FROM turns WHERE game_id=${current_game.id}`)
     turn.count = turns[0].count
 
+    if (turn.count > 0){ 
+      const previousTurn = await Turn.findOne({count: turn.count - 1})
+        if (previousTurn.status !== 'pending') throw new NotFoundError('Game is finished')
+    
+    }
+
     JSON.stringify(solution) === JSON.stringify(turn.user_turn) ? turn.status = 'winner' : turn.status = 'pending'
     if (turn.count >= 19) turn.status = 'tie'
 
