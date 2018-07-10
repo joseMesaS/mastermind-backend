@@ -1,6 +1,7 @@
 import { JsonController, Post, Get, Param, CurrentUser, Authorized, BodyParam} from 'routing-controllers'
 import {Game, Player} from './entity'
 import User from '../users/entity';
+import {io} from '../index'
 
 @JsonController()
 export default class GamesController {
@@ -31,10 +32,10 @@ export default class GamesController {
 
         const game = await Game.findOne(entity.id)
 
-        // io.emit('action', {
-        // type: 'ADD_GAME',
-        // payload: game
-        // })
+        io.emit('action', {
+        type: 'ADD_GAME',
+        payload: game
+        })
 
         return game
     }
