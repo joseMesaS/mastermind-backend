@@ -1,5 +1,6 @@
-import { JsonController, Get, Param, Body, Post, Put, NotFoundError, BadRequestError} from 'routing-controllers'
+import { JsonController, Get, Param, Body, Post, Put, NotFoundError} from 'routing-controllers'
 import Turn from './entity'
+import { Game } from '../games/entity';
 
  const checkColors = (turn, solution) => {
      return [...new Set([]
@@ -21,7 +22,8 @@ export default class TurnController {
   async createTurn(
      @Body() turn: Turn
   ) {
-    const current_game = await Games.findOne(turn.game)
+    const current_game = await Game.findOne(turn.game)
+    if(!current_game) throw new NotFoundError('game not found ')
     const solution = current_game.solution
     turn.colors_score = checkColors(turn.user_turn, solution)
     turn.postitons_score = checkPositions(turn.user_turn, solution)
