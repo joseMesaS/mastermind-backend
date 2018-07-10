@@ -1,19 +1,7 @@
 import { JsonController, Get, Param, Body, Post, Put, NotFoundError} from 'routing-controllers'
 import Turn from './entity'
 import { Game } from '../games/entity';
-
- const checkColors = (turn, solution) => {
-     return [...new Set([]
-                 .concat(...solution
-                 .map((s, index) => turn
-                 .map(g => s === g ? index : null)))
-                 .filter(i => i !== null))]
-                 .length;
- }
-
- const checkPositions = (turn, solution) => {
-    return turn.filter((a, i) => a === solution[i]).length
- }
+import {checkColors, checkPositions} from './gamelogic/logic'
 
 @JsonController()
 export default class TurnController {
