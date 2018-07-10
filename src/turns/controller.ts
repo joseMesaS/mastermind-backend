@@ -3,6 +3,15 @@ import Turn from './entity'
 import { Game } from '../games/entity';
 import {checkColors, checkPositions} from './gamelogic/logic'
 
+export const createSolution = () => {
+  let solution = new Array(4)
+  for (let i = 0; i < 4; i++) {
+    const random = Math.random() * 6;
+    const floor = Math.floor(random)
+    solution.push(floor)
+  }
+  return solution
+}
 @JsonController()
 export default class TurnController {
 

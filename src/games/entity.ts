@@ -3,6 +3,7 @@ import { BaseEntity } from 'typeorm/repository/BaseEntity'
 import Turn  from '../turns/entity'
 import User from '../users/entity'
 
+
 @Entity()
 export class Game extends BaseEntity {
 

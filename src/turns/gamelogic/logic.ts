@@ -1,11 +1,13 @@
-export const getUserInput = () => {
-    return readline.question("Enter 4 numbers: ").split('').map(a => +a)
-}
+
 export const createSolution = () => {
-    let solution = []
-    for (let i = 0; i < 4; i++) {solution.push(Math.floor(Math.random() * 6))}
+    let solution = new Array(4)
+    for (let i = 0; i < 4; i++) {
+      const random = Math.random() * 6;
+      const floor = Math.floor(random)
+      solution.push(floor)
+    }
     return solution
-}
+  }
 export const checkPositions = (guess, solution) => {
    return guess.filter((a, i) => a === solution[i]).length
 }
@@ -17,3 +19,7 @@ export const checkColors = (guess, solution) => {
                 .filter(i => i !== null))]
                 .length;
 }
+
+// export const checkIfWon = (guesses) => {
+//     return guesses.filter(a => positions(a) === 4)
+// }
