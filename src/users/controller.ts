@@ -1,6 +1,6 @@
 import { JsonController, Body, Post, Get, Param } from 'routing-controllers'
 import User from './entity'
-import { io } from '../index'
+import { io } from '..'
 
 @JsonController()
 export default class UserController {

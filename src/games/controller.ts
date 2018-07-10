@@ -2,6 +2,7 @@ import { JsonController, Post, Get, Param, CurrentUser, Authorized, BodyParam} f
 import {Game, Player} from './entity'
 import User from '../users/entity';
 import {io} from '../index'
+import {createSolution} from '../turns/gamelogic/logic'
 
 @JsonController()
 export default class GamesController {
@@ -22,7 +23,7 @@ export default class GamesController {
     ) {
         const newGame = Game.create()
         newGame.name = name
-        
+        newGame.solution = createSolution()
         const entity = await newGame.save()
 
         await Player.create({
