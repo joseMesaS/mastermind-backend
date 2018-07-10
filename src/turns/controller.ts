@@ -21,15 +21,21 @@ export default class TurnController {
 
     const player = await Player.findOne({user, game: current_game})
     if (!player) throw new NotFoundError('Cannot find player')
-    
-    turn.colors_score = checkColors(turn.user_turn, solution)
-    turn.postitons_score = checkPositions(turn.user_turn, solution)
+
     turn.game = current_game
     turn.player = player
+    turn.user_turn = JSON.parse(turn.user_turn)
 
-    JSON.stringify(solution) === JSON.stringify(turn.user_turn) ? turn.winner = true : turn.winner = false
-    const turns = await Turn.query(`SELECT COUNT * FROM turns WHERE game_id=${current_game.id}`)
-    if (turns >= 19) throw new NotFoundError('The game is finished') 
+    turn.colors_score = checkColors(solution, turn.user_turn)
+    turn.postitons_score = checkPositions(turn.user_turn, solution)
+
+    const turns = await Turn.query(`SELECT COUNT (id) FROM turns WHERE game_id=${current_game.id}`)
+    turn.count = turns[0].count
+
+    JSON.stringify(solution) === JSON.stringify(turn.user_turn) ? turn.status = 'winner' : turn.status = 'pending'
+    if (turn.count >= 19) turn.status = 'tie'
+
+
     return turn.save()
   }
 }

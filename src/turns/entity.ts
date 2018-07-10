@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } f
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
 import {Game, Player } from '../games/entity';
 
-
+type Status = 'pending' | 'winner' | 'tie'
 
 
 @Entity()
@@ -17,8 +17,8 @@ export default class Turn extends BaseEntity {
   @ManyToOne(_ => Player, player => player.turns)
   player: Player;
 
-  @Column('integer', {nullable:true})
-  user_turn: number[]
+  @Column('json', {nullable:true})
+  user_turn: string
   
   @Column('integer', {nullable:true})
   colors_score: number
@@ -26,8 +26,11 @@ export default class Turn extends BaseEntity {
   @Column('integer', {nullable:true})
   postitons_score: number
 
-  @Column('boolean', {nullable:true})
-  winner: boolean
+  @Column('integer', {nullable:false})
+  count: number
+
+  @Column('text', {nullable:false})
+  status: Status
 
   @CreateDateColumn({type: "timestamp"})
   created_at: Date;
