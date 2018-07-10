@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, Index } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
 import Turn  from '../turns/entity'
 import User from '../users/entity'
-
+ 
 
 @Entity()
 export class Game extends BaseEntity {
@@ -22,13 +22,15 @@ export class Game extends BaseEntity {
   @Column('json',{nullable:true})
   solution: number[]
 
+  @Column('text', {default: 'pending'})
+  status: string
+
   @CreateDateColumn({type: 'timestamp'})
   timeOfCreation: Date
 }
 
 
 @Entity()
-// @Index(['game', 'user'], {unique:true})
 export class Player extends BaseEntity {
 
   @PrimaryGeneratedColumn()

@@ -1,6 +1,6 @@
 
 export const createSolution = () => {
-    let solution = new Array(4)
+    let solution = new Array()
     for (let i = 0; i < 4; i++) {
       const random = Math.random() * 6;
       const floor = Math.floor(random)
