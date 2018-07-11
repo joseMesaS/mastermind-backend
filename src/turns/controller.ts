@@ -53,8 +53,13 @@ export default class TurnController {
 
     const newTurnSaved = await newTurn.save()
     current_game.currentTurn =   current_game.currentTurn === 'Player 1' ? 'Player 2' : 'Player 1'
-    await current_game.save()
+    const savedGame = await current_game.save()
 
+
+    io.emit('action', {
+      type: 'UPDATE_GAME',
+      payload: savedGame
+    })
 
     io.emit('action', {
       type: 'MAKE_TURN',
