@@ -13,11 +13,6 @@ export const checkPositions = (guess, solution) => {
    return guess.filter((a, i) => a === solution[i]).length
 }
 export const checkColors = (guess, solution) => {
-    return [...new Set([]
-                .concat(...solution
-                .map((s, index) => guess
-                .map(g => s === g ? index : null)))
-                .filter(i => i !== null))]
-                .length;
+    return guess.filter(element => solution.indexOf(element)!==-1).length
 }
 
