@@ -42,7 +42,7 @@ export class Player extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @ManyToOne(_ => User, user => user.players)
+  @ManyToOne(_ => User, user => user.players, {eager:true})
   user: User
 
   @ManyToOne(_ => Game, game => game.players)
