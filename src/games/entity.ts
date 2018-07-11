@@ -22,6 +22,9 @@ export class Game extends BaseEntity {
   @Column('json',{nullable:true})
   solution: number[]
 
+  @Column('text',{default: 'Player 1'})
+  currentTurn: string
+
   @Column('text', {default: 'pending'})
   status: string
 
@@ -41,6 +44,9 @@ export class Player extends BaseEntity {
 
   @ManyToOne(_ => Game, game => game.players)
   game: Game
+
+  @Column('text',{nullable:true})
+  role: string
 
   @OneToMany(_ => Turn, turn => turn.player)
   turns: Turn[];

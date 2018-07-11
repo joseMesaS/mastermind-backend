@@ -30,7 +30,8 @@ export default class GamesController {
 
         const player = await Player.create({
         game, 
-        user
+        user,
+        role: 'Player 2'
         }).save()
 
         io.emit('action', {
@@ -43,6 +44,7 @@ export default class GamesController {
 
     
     @Authorized()
+    @HttpCode(201)
     @Post('/games')
     async createGame(
         @BodyParam('name') name : string,
@@ -56,7 +58,8 @@ export default class GamesController {
 
         await Player.create({
         game: entity, 
-        user
+        user,
+        role: 'Player 1'
         }).save()
 
         const game = await Game.findOne(entity.id)

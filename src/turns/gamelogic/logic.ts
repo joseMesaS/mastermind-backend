@@ -1,10 +1,11 @@
 
 export const createSolution = () => {
     let solution = new Array()
-    for (let i = 0; i < 4; i++) {
-      const random = Math.random() * 6;
-      const floor = Math.floor(random)
-      solution.push(floor)
+    while (solution.length<4) {
+
+      const random = Math.floor( Math.random() * 6)
+      if(solution.indexOf(random) === -1) solution.push(random)
+      
     }
     return solution
   }
