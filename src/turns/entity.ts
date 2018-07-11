@@ -18,7 +18,7 @@ export default class Turn extends BaseEntity {
   player: Player;
 
   @Column('json', {nullable:true})
-  user_turn: string
+  userInput: number[]
   
   @Column('integer', {nullable:true})
   colors_score: number
@@ -26,10 +26,10 @@ export default class Turn extends BaseEntity {
   @Column('integer', {nullable:true})
   postitons_score: number
 
-  @Column('integer', {nullable:false})
+  @Column('integer', {nullable:true})
   count: number
 
-  @Column('text', {nullable:false})
+  @Column('text', {nullable:true})
   status: Status
 
   @CreateDateColumn({type: "timestamp"})
