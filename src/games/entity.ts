@@ -30,6 +30,9 @@ export class Game extends BaseEntity {
 
   @CreateDateColumn({type: 'timestamp'})
   timeOfCreation: Date
+
+  @Column('text', {default: 'none'})
+  winner: string
 }
 
 

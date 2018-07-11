@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } f
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
 import {Game, Player } from '../games/entity';
 
-type Status = 'pending' | 'winner' | 'tie'
+
 
 
 @Entity()
@@ -25,12 +25,6 @@ export default class Turn extends BaseEntity {
 
   @Column('integer', {nullable:true})
   postitons_score: number
-
-  @Column('integer', {nullable:true})
-  count: number
-
-  @Column('text', {nullable:true})
-  status: Status
 
   @CreateDateColumn({type: "timestamp"})
   created_at: Date;

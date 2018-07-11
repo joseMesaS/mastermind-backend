@@ -1,4 +1,4 @@
-import { JsonController, Body, Post, NotFoundError, CurrentUser, Param, BadRequestError} from 'routing-controllers'
+import { JsonController, Body, Post, NotFoundError, CurrentUser, Param, BadRequestError, Authorized, Get} from 'routing-controllers'
 import Turn from './entity'
 import { Game, Player } from '../games/entity';
 import {checkColors, checkPositions} from './gamelogic/logic'
@@ -9,6 +9,7 @@ import { io } from '../index';
 @JsonController()
 export default class TurnController {
 
+  @Authorized()
   @Post('/turns/:id([0-9]+)')
   async createTurn(
      @CurrentUser() user: User,
@@ -21,44 +22,63 @@ export default class TurnController {
     const player = await Player.findOne({user, game: current_game})
     if (!player) throw new NotFoundError('you are not part of this game')
 
+    if (current_game.status === 'finished') throw new NotFoundError(`Game is over and winner is ${current_game.winner}`)
     if (current_game.status !== 'started') throw new NotFoundError('Game has not started')
-
+    
     if(player.role !==  current_game.currentTurn) throw new BadRequestError(`It's not your turn`)
 
-    const solution = current_game.solution
+    if(!turn.userInput) throw new BadRequestError('no input!')
 
 
     const newTurn = Turn.create()
     newTurn.game = current_game
     newTurn.player = player
-    if(!turn.userInput) throw new BadRequestError('no input!')
     newTurn.userInput = turn.userInput
-    newTurn.colors_score = checkColors(solution, turn.userInput)
-    newTurn.postitons_score = checkPositions(turn.userInput, solution)
+    newTurn.colors_score = checkColors(current_game.solution, turn.userInput)
+    newTurn.postitons_score = checkPositions(turn.userInput, current_game.solution)
 
-   
-
-    const turns = await Turn.query(`SELECT COUNT (id) FROM turns WHERE game_id=${current_game.id}`)
-    newTurn.count = turns[0].count
-
-    if (newTurn.count > 0){ 
-      const previousTurn = await Turn.findOne({count: newTurn.count - 1})
-      if(!previousTurn) throw new BadRequestError('no previus turn')
-        if (previousTurn.status !== 'pending') throw new NotFoundError('Game is finished')
     
+    const turnsCount = Number((await Turn.query(`SELECT COUNT (id) FROM turns WHERE game_id=${current_game.id}`))[0].count)
+
+
+    if(newTurn.postitons_score === 4) {
+      current_game.status = 'finished'
+      current_game.winner = player.role
     }
 
-    JSON.stringify(solution) === JSON.stringify(turn.userInput) ? turn.status = 'winner' : turn.status = 'pending'
-    if (newTurn.count >= 19) turn.status = 'tie'
+    if(turnsCount >= 10 && current_game.winner === 'none'){
+      current_game.status = 'finished'
+      current_game.winner = 'no winner'
+    }
 
-    current_game.currentTurn ==   'Player 1' ? 'Player 2' : 'Player 1'
-    
+    const newTurnSaved = await newTurn.save()
+    current_game.currentTurn =   current_game.currentTurn === 'Player 1' ? 'Player 2' : 'Player 1'
+    await current_game.save()
+
+
     io.emit('action', {
-      type: 'UPDATE_GAME',
-      payload: current_game
+      type: 'MAKE_TURN',
+      payload: newTurnSaved
     })
-    return newTurn.save()
+
+    
+    return newTurnSaved
   }
+
+
+ 
+    @Get('/turns/:id([0-9]+)')
+    async getTurns(
+      @Param('id') gameId: number
+    ) {
+
+      const current_game = await Game.findOne(gameId)
+      if(!current_game) throw new NotFoundError('Game not found ')
+      
+      const TurnList = await Turn.query(`SELECT * FROM turns WHERE game_id=${current_game.id}`)
+
+      return TurnList
+    }
 }
 
 

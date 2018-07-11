@@ -1,16 +1,9 @@
-import { JsonController, Body, Post, Get, Param } from 'routing-controllers'
+import { JsonController, Body, Post, Get, Param, Authorized } from 'routing-controllers'
 import User from './entity'
-import { io } from '..'
+import { io } from '../index'
 
 @JsonController()
 export default class UserController {
-
-    @Get('/users/:id')
-    getUser(
-        @Param('id') id: number
-    ) {
-        return User.findOne(id)
-    }
 
     @Post('/users')
     async createUser(
@@ -21,12 +14,27 @@ export default class UserController {
         await entity.setPassword(password)
         const user  = await entity.save()
 
-        // io.emit('action', {
-        //     type: 'ADD_USER',
-        //     payload: entity
-        // })
+        io.emit('action', {
+            type: 'ADD_USER',
+            payload: entity
+        })
 
         return user
 
+    }
+
+
+    @Authorized()
+    @Get('/users/:id([0-9]+)')
+    getUser(
+      @Param('id') id: number
+    ) {
+      return User.findOne(id)
+    }
+  
+    @Authorized()
+    @Get('/users')
+    allUsers() {
+      return User.find()
     }
 }

@@ -28,7 +28,7 @@ export default class GamesController {
         game.status = 'started'
         await game.save()
 
-        const player = await Player.create({
+        await Player.create({
         game, 
         user,
         role: 'Player 2'
@@ -39,7 +39,7 @@ export default class GamesController {
         payload: await Game.findOne(game.id)
         })
 
-        return player
+        return await Game.findOne(game.id)
     }
 
     
@@ -53,7 +53,7 @@ export default class GamesController {
         const newGame = Game.create()
         newGame.name = name
         newGame.solution = createSolution()
-        console.log(newGame.solution)
+        
         const entity = await newGame.save()
 
         await Player.create({
