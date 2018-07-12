@@ -4,7 +4,8 @@
   "main": "./target/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ."
+    "start": "nodemon .",
+    "compile": "tsc -w"
   },
   "dependencies": {
     "@types/bcrypt": "^2.0.0",
