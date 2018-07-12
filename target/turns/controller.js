@@ -38,8 +38,8 @@ let TurnController = class TurnController {
         newTurn.game = current_game;
         newTurn.player = player;
         newTurn.userInput = turn.userInput;
-        newTurn.colors_score = logic_1.checkColors(current_game.solution, turn.userInput);
         newTurn.postitons_score = logic_1.checkPositions(turn.userInput, current_game.solution);
+        newTurn.colors_score = logic_1.checkColors(current_game.solution, turn.userInput) - newTurn.postitons_score;
         const turnsCount = Number((await entity_1.default.query(`SELECT COUNT (id) FROM turns WHERE game_id=${current_game.id}`))[0].count);
         if (newTurn.postitons_score === 4) {
             current_game.status = 'finished';
