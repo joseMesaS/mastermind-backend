@@ -60,11 +60,14 @@ let TurnController = class TurnController {
             type: 'MAKE_TURN',
             payload: newTurnSaved
         });
+<<<<<<< HEAD
         const TurnList = await entity_1.default.query(`SELECT * FROM turns WHERE game_id=${current_game.id} ORDER BY created_at ASC`);
         index_1.io.emit('action', {
             type: 'GET_TURNS',
             payload: TurnList
         });
+=======
+>>>>>>> 8690b909e2c6081d5d191e446802c77f579ccbcc
         return newTurnSaved;
     }
     async getTurns(gameId) {

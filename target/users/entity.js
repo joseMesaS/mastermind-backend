@@ -33,6 +33,13 @@ __decorate([
 ], User.prototype, "email", void 0);
 __decorate([
     typeorm_1.Column('text', { nullable: true }),
+<<<<<<< HEAD
+=======
+    __metadata("design:type", String)
+], User.prototype, "name", void 0);
+__decorate([
+    typeorm_1.Column('text', { nullable: true }),
+>>>>>>> 8690b909e2c6081d5d191e446802c77f579ccbcc
     class_transformer_1.Exclude({ toPlainOnly: true }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);

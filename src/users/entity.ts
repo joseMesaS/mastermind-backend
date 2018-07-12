@@ -15,6 +15,9 @@ export default class User extends BaseEntity {
   email: string
 
   @Column('text', { nullable:true })
+  name: string
+
+  @Column('text', { nullable:true })
   @Exclude({toPlainOnly:true})
   password: string
 
