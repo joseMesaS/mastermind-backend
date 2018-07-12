@@ -1,11 +1,9 @@
 {
   "name": "mastermind-backend",
   "version": "1.0.0",
-  "main": "./index.js",
+  "main": "./target/index.js",
   "license": "MIT",
-  "scripts": {
-    "start": "./target/index.js"
-  },
+
   "dependencies": {
     "@types/bcrypt": "^2.0.0",
     "@types/jsonwebtoken": "^7.2.8",
