@@ -66,6 +66,12 @@ export default class TurnController {
       payload: newTurnSaved
     })
 
+    const TurnList = await Turn.query(`SELECT * FROM turns WHERE game_id=${current_game.id} ORDER BY created_at ASC`)
+
+    io.emit('action', {
+      type: 'GET_TURNS',
+      payload: TurnList
+    })
     
     return newTurnSaved
   }
