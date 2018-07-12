@@ -4,7 +4,6 @@
   "main": "./target/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon .",
     "compile": "tsc -w"
   },
   "dependencies": {
