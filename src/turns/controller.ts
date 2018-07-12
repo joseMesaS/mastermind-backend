@@ -80,8 +80,13 @@ export default class TurnController {
       const current_game = await Game.findOne(gameId)
       if(!current_game) throw new NotFoundError('Game not found ')
       
-      const TurnList = await Turn.query(`SELECT * FROM turns WHERE game_id=${current_game.id}`)
+      const TurnList = await Turn.query(`SELECT * FROM turns WHERE game_id=${current_game.id} ORDER BY created_at ASC`)
 
+      io.emit('action', {
+        type: 'GET_TURNS',
+        payload: TurnList
+      })
+  
       return TurnList
     }
 }
