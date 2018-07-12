@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "main": "./target/index.js",
   "license": "MIT",
-  "scripts": {
-    "compile": "tsc -w"
-  },
   "dependencies": {
     "@types/bcrypt": "^2.0.0",
     "@types/jsonwebtoken": "^7.2.8",
