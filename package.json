@@ -4,7 +4,7 @@
   "main": "./target/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./target/index.ts"
+    "start": "node ."
   },
   "dependencies": {
     "@types/bcrypt": "^2.0.0",
