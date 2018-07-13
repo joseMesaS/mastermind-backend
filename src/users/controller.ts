@@ -71,11 +71,13 @@ export default class UserController {
             u['won'] = playerScore.won
             u['lost'] = playerScore.lost
             u['tied'] = playerScore.tied
+            u['score'] = (playerScore.won * 3) + (playerScore.tied * 2) + (playerScore.lost * 1)
             return u
         } else {
           u['won'] = 0
           u['lost'] = 0
           u['tied'] = 0
+          u['score'] = 0
           return u
         }
       })
