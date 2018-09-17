@@ -1,15 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm'
-import { BaseEntity } from 'typeorm/repository/BaseEntity'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import { BaseEntity } from 'typeorm/repository/BaseEntity';
 import {Game, Player } from '../games/entity';
-
-
-
 
 @Entity()
 export default class Turn extends BaseEntity {
  
   @PrimaryGeneratedColumn()
-  id?: number
+  id?: number;
 
   @ManyToOne(() => Game, game => game.turns)
   game: Game;
@@ -18,13 +15,13 @@ export default class Turn extends BaseEntity {
   player: Player;
 
   @Column('json', {nullable:true})
-  userInput: number[]
+  userInput: number[];
   
   @Column('integer', {nullable:true})
-  colors_score: number
+  colors_score: number;
 
   @Column('integer', {nullable:true})
-  postitons_score: number
+  postitons_score: number;
 
   @CreateDateColumn({type: "timestamp"})
   created_at: Date;

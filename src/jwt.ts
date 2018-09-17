@@ -1,13 +1,13 @@
-import * as jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken';
+const ttl = 3600 * 4 ;
+export const secret = process.env.JWT_SECRET || '9u8nnjksfdt98*(&*%T$#hsfjk';
 
-export const secret = process.env.JWT_SECRET || '9u8nnjksfdt98*(&*%T$#hsfjk'
-const ttl = 3600 * 4 
 interface JwtPayload {
-  id: number
+  id: number;
 }
 
 export const sign = (data: JwtPayload) =>
-  jwt.sign(data, secret, { expiresIn: ttl })
+  jwt.sign(data, secret, { expiresIn: ttl });
 
 export const verify = (token: string): JwtPayload =>
-  jwt.verify(token, secret) as JwtPayload
+  jwt.verify(token, secret) as JwtPayload;
