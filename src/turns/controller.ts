@@ -29,13 +29,12 @@ export default class TurnController {
     if(!turn.userInput) throw new BadRequestError('no input!');
 
 
-    const newTurn = Turn.create();
-    newTurn.game = current_game;
-    newTurn.player = player;
-    newTurn.userInput = turn.userInput;
-    newTurn.colors_score = checkColors(current_game.solution, turn.userInput);
-    newTurn.postitons_score = checkPositions(turn.userInput, current_game.solution);
-
+    const newTurn = Turn.create()
+    newTurn.game = current_game
+    newTurn.player = player
+    newTurn.userInput = turn.userInput
+    newTurn.postitons_score = checkPositions(turn.userInput, current_game.solution)
+    newTurn.colors_score = checkColors(current_game.solution, turn.userInput) - newTurn.postitons_score
     
     const turnsCount = Number((await Turn.query(`SELECT COUNT (id) FROM turns WHERE game_id=${current_game.id}`))[0].count);
 
